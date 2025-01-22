@@ -7,15 +7,17 @@ PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/ludo"
 PKG_DEPENDS_TARGET="toolchain openal-soft"
 PKG_LONGDESC="A libretro frontend written in golang."
-PKG_VERSION="0.16.13"
-PKG_URL="https://github.com/libretro/ludo/releases/download/v$PKG_VERSION/Ludo-Linux-$ARCH-$PKG_VERSION.tar.gz"
-PKG_SOURCE_NAME="Ludo-Linux-$ARCH-$PKG_VERSION.tar.gz"
+PKG_VERSION="0.19.0"
 PKG_TOOLCHAIN="manual"
 
 if [ "$DISPLAYSERVER" = "x11" ]; then
   PKG_DEPENDS_TARGET+=" libX11 libXext libdrm libXrandr libXcursor"
-elif [ "$DISPLAYSERVER" = "weston" ]; then
+  PKG_URL="https://github.com/libretro/ludo/releases/download/v$PKG_VERSION/Ludo-Linux-x11-$ARCH-$PKG_VERSION.tar.gz"
+  PKG_SOURCE_NAME="Ludo-Linux-x11-$ARCH-$PKG_VERSION.tar.gz"
+else
   PKG_DEPENDS_TARGET+=" wayland waylandpp"
+  PKG_URL="https://github.com/libretro/ludo/releases/download/v$PKG_VERSION/Ludo-Linux-wayland-$ARCH-$PKG_VERSION.tar.gz"
+  PKG_SOURCE_NAME="Ludo-Linux-wayland-$ARCH-$PKG_VERSION.tar.gz"
   CFLAGS+=" -DMESA_EGL_NO_X11_HEADERS"
   CXXFLAGS+=" -DMESA_EGL_NO_X11_HEADERS"
 fi
