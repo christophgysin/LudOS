@@ -1,0 +1,33 @@
+From 28ba6011f5dfd337e61e9c5618824115c63be66a Mon Sep 17 00:00:00 2001
+From: Max Staudt <max@enpas.org>
+Date: Sat, 16 Mar 2024 01:57:29 +0900
+Subject: [PATCH] HID: nintendo: Don't fail on setting baud rate
+
+Some third-party controllers can't change the baud rate.
+
+We can still use the gamepad as-is, so let's do that.
+
+Signed-off-by: Max Staudt <max@enpas.org>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+---
+ drivers/hid/hid-nintendo.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index ce88ac7617fd59..e311b092e758fc 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -2503,8 +2503,11 @@ static int joycon_init(struct hid_device *hdev)
+ 		/* set baudrate for improved latency */
+ 		ret = joycon_send_usb(ctlr, JC_USB_CMD_BAUDRATE_3M, HZ);
+ 		if (ret) {
+-			hid_err(hdev, "Failed to set baudrate; ret=%d\n", ret);
+-			goto out_unlock;
++			/*
++			 * We can function with the default baudrate.
++			 * Provide a warning, and continue on.
++			 */
++			hid_warn(hdev, "Failed to set baudrate (ret=%d), continuing anyway\n", ret);
+ 		}
+ 		/* handshake */
+ 		ret = joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ);
