@@ -107,7 +107,7 @@
   PULSEAUDIO_SUPPORT="no"
 
 # build and install pipewire support (yes / no)
-  PIPEWIRE_SUPPORT="no"
+  PIPEWIRE_SUPPORT="yes"
 
 # build and install eSpeak-NG support (yes / no)
   ESPEAK_SUPPORT="no"
