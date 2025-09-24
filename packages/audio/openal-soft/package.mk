@@ -16,3 +16,7 @@ PKG_CMAKE_OPTS_TARGET="-DALSOFT_BACKEND_OSS=off \
                        -DALSOFT_EXAMPLES=off \
                        -DALSOFT_UTILS=off"
 
+if [ "$PIPEWIRE_SUPPORT" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" pipewire"
+  PKG_CMAKE_OPTS_TARGET+=" -DALSOFT_BACKEND_PIPEWIRE=on"
+fi
